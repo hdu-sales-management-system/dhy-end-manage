@@ -6,6 +6,7 @@ import PrivateRoute from '../PrivateRoute'
 const Home = LoadableComponent(()=>import('../../routes/Home/index'))  //参数一定要是函数，否则不会懒加载，只会代码拆分
 const Shop =LoadableComponent(()=>import('../../routes/Shop/index'))
 const Storehouse =LoadableComponent(()=>import('../../routes/Storehouse/index'))
+const Manage=LoadableComponent(()=>import('../../routes/Manage/index'))
 //基本组件Demo
 const ButtonDemo = LoadableComponent(()=>import('../../routes/General/ButtonDemo/index'))
 const IconDemo = LoadableComponent(()=>import('../../routes/General/IconDemo/index'))
@@ -52,11 +53,11 @@ class ContentMain extends React.Component {
         <Switch>
           <PrivateRoute exact path='/home' component={Home}/>
           <PrivateRoute exact path='/home/shop' component={Shop}/>
-          <PrivateRoute exact path='home/storehouse' component={Storehouse}/>
+          <PrivateRoute exact path='/home/storehouse' component={Storehouse}/>
+          <PrivateRoute exact path='/home/manage' component={Manage}/>
 
           <PrivateRoute exact path='/home/general/button' component={ButtonDemo}/>
           <PrivateRoute exact path='/home/general/icon' component={IconDemo}/>
-          <PrivateRoute exact path='/home/shop' component={ButtonDemo}/>
 
           <PrivateRoute exact path='/home/navigation/dropdown' component={DropdownDemo}/>
           <PrivateRoute exact path='/home/navigation/menu' component={MenuDemo}/>

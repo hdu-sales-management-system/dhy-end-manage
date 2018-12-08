@@ -1,17 +1,9 @@
 import React from 'react'
-import { Avatar,Card, Popconfirm, Button, Icon, Table, Divider, BackTop, Affix, Anchor, Form, InputNumber, Input} from 'antd'
+import { Avatar,Card, Popconfirm, Button,Switch, Icon, Table, Divider, BackTop, Affix, Anchor, Form, InputNumber, Input} from 'antd'
 import CustomBreadcrumb from '../../components/CustomBreadcrumb/index'
-import {getPresents} from '../../network/present'
+import {getPresents, delPresent, updPresent} from '../../network/present'
 
-const data8 = [];
-for (let i = 0; i < 100; i++) {
-    data8.push({
-        key: i.toString(),
-        name: `Edrward ${i}`,
-        age: 32,
-        address: `London Park no. ${i}`,
-    });
-}
+const {Search, TextArea} = Input
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -21,13 +13,19 @@ const EditableRow = ({form, index, ...props}) => (
     </EditableContext.Provider>
 );
 const EditableFormRow = Form.create()(EditableRow);
-
 class EditableCell extends React.Component {
     getInput = () => {
-        if (this.props.inputType === 'number') {
-            return <InputNumber/>;
+        switch( this.props.dataIndex) {
+            case 'price':
+            case 'offcost':
+                return <InputNumber/>
+            case 'description': 
+                return <TextArea />
+            case 'off': 
+                return <Switch/>
+            default:
+             return <Input/>
         }
-        return <Input/>;
     };
 
     render() {
@@ -116,7 +114,7 @@ class TableDemo extends React.Component {
         },
         {
             title: '礼品介绍',
-            dataIndex: 'decription',
+            dataIndex: 'description',
             editable: true,
             width:'15%'
         },
@@ -142,7 +140,7 @@ class TableDemo extends React.Component {
             title: '打折状态',
             dataIndex: 'off',
             editable: true,
-            width:'5%'
+            width:'10%'
         },
         {
             title: '折扣',
@@ -155,7 +153,6 @@ class TableDemo extends React.Component {
             dataIndex: 'edit',
             render: (text, record) => {
                 const editable = this.isEditing(record);
-                console.log(record)
                 return (
                     <div>
                         {editable ? (
@@ -199,7 +196,6 @@ class TableDemo extends React.Component {
             }
         }
     ]
-
 
     handleChange = (pagination, filters, sorter) => {
         this.setState({
@@ -254,12 +250,15 @@ class TableDemo extends React.Component {
             ...filters,
         })
     }
-    onDelete = (key) => {
+    
+    onDelete = async (key) => {
         const arr = this.state.data.slice()
+        await delPresent(key)
         this.setState({
             data: arr.filter(item => item.id !== key)
         })
     }
+    
     handleAdd = () => {
         const {data, count} = this.state //本来想用data的length来代替count，但是删除行后，length会-1
         const newData = {
@@ -278,26 +277,29 @@ class TableDemo extends React.Component {
     };
 
     edit(key) {
-        console.log(key)
         this.setState({editingKey: key});
     }
 
-    save(form, key) {
-        form.validateFields((error, row) => {
+     save(form, key) {
+        form.validateFields(async (error, row) => {
             if (error) {
                 return;
             }
             const newData = [...this.state.data];
-            const index = newData.findIndex(item => key === item.key);
+            const index = newData.findIndex(item => key === item.id);
             if (index > -1) {
                 const item = newData[index];
-                newData.splice(index, 1, {
-                    ...item,
-                    ...row,
-                });
+                const newRow = {
+                  ...item,
+                  ...row,
+                }
+                newData.splice(index, 1, newRow);
+                // error handler
+                console.log(row, item)
+                const resp = await updPresent(newRow)
                 this.setState({data: newData, editingKey: ''});
             } else {
-                newData.push(data8);
+                // newData.push(data);
                 this.setState({data: newData, editingKey: ''});
             }
         });
@@ -308,18 +310,16 @@ class TableDemo extends React.Component {
     };
 
     render() {
-        const rowSelection = {
-            selections: true
-        }
-        let {sortedInfo, filteredInfo} = this.state
-        sortedInfo = sortedInfo || {}
-        filteredInfo = filteredInfo || {}
+        // let {sortedInfo, filteredInfo} = this.state
+        // sortedInfo = sortedInfo || {}
+        // filteredInfo = filteredInfo || {}
         const components = {
             body: {
                 row: EditableFormRow,
                 cell: EditableCell,
             },
         }
+        const numberTypedCol = ['price', 'offcost']
         const columns = this.columns.map((col) => {
           if (!col.editable) {
             return col;
@@ -328,7 +328,7 @@ class TableDemo extends React.Component {
             ...col,
             onCell: record => ({
               record,
-              inputType: col.dataIndex === 'age' ? 'number' : 'text',
+              inputType: numberTypedCol.includes(col.dataIndex) ? 'number' : 'text',
               dataIndex: col.dataIndex,
               title: col.title,
               editing: this.isEditing(record),
@@ -340,9 +340,13 @@ class TableDemo extends React.Component {
                 <CustomBreadcrumb arr={[ '商城']}/>
                 <Card bordered={false} title='商品目录' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
                     <p>
-                        <Button onClick={this.handleAdd}>添加行</Button>
+                        <Search
+                            placeholder="input search text"
+                            onSearch={value => console.log(value)}
+                            style={{ width: 200 ,margin: 5}}
+                        />
                     </p>
-                    <Table bordered components={components} dataSource={this.state.data} columns={columns} style={styles.tableStyle}/>
+                    <Table scroll={{x: 1500, y: 800}} bordered components={components} dataSource={this.state.data} columns={columns} style={styles.tableStyle}/>
                 </Card>
                 <BackTop visibilityHeight={200} style={{right: 50}}/>
             </div>

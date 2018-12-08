@@ -136,7 +136,7 @@ class TableDemo extends React.Component {
                 {text: '类别2', value: '类别2'},
             ],
             editable: true,
-            width:'15%'
+            width:'10%'
         },
         {
             title: '库存',
@@ -162,16 +162,50 @@ class TableDemo extends React.Component {
             editable: true,
             width:'10%'
         },
+        {
+            title: '编辑',
+            dataIndex: 'edit',
+            render: (text, record) => {
+                const editable = this.isEditing(record);
+                return (
+                    <div>
+                        {editable ? (
+                            <span>
+                  <EditableContext.Consumer>
+                    {form => (
+                        <a
+
+                            onClick={() => this.save(form, record.key)}
+                            style={{marginRight: 8}}
+                        >
+                            保存
+                        </a>
+                    )}
+                  </EditableContext.Consumer>
+                  <Popconfirm
+                      title="取消？"
+                      onConfirm={() => this.cancel(record.key)}
+                  >
+                    <a>取消</a>
+                  </Popconfirm>
+                </span>
+                        ) : (
+                            <a onClick={() => this.edit(record.key)}>Edit</a>
+                        )}
+                    </div>
+                );
+            },
+        },
 
         {
-            title: '上架',
+            title: '删除',
             dataIndex: 'operation',
             width:'15%',
             render: (text, record) => {
                 return (
                     this.state.data7.length > 0 ?
-                        <Popconfirm title="上架?" onConfirm={() => this.onDelete(record.key)}>
-                            <a>上架</a>
+                        <Popconfirm title="删除?" onConfirm={() => this.onDelete(record.key)}>
+                            <a>删除</a>
                         </Popconfirm> : null
                 )
             }
@@ -427,10 +461,9 @@ class TableDemo extends React.Component {
                     <Table dataSource={data6} columns={columns6} style={styles.tableStyle}
                            scroll={{x: 1500, y: 500}}/>
                 </Card>*/}
-                <Card bordered={false} title='仓库目录' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
+                <Card bordered={false} title='仓库' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
                     <p>
                         <Button onClick={this.handleAdd}>添加行</Button>
-
                         <Search
                             placeholder="input search text"
                             onSearch={value => console.log(value)}

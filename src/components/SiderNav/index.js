@@ -14,11 +14,16 @@ const menus = [
      key:'/home/shop',
   },
   {
-     title:'仓库管理',
+     title:'商城仓库',
      icon:'laptop',
      key:'/home/storehouse',
   },
   {
+      title:'仓库管理',
+      icon:'edit',
+      key:'/home/manage',
+  },
+  /*{
     title: '基本组件',
     icon: 'laptop',
     key: '/home/general',
@@ -94,7 +99,7 @@ const menus = [
     title: '关于',
     icon: 'info-circle-o',
     key: '/home/about'
-  }
+  }*/
 ]
 
 

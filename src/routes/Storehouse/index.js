@@ -29,7 +29,7 @@ import TypingCard from '../../components/TypingCard'
     ]*/
 
 
-
+const Search = Input.Search;
 const data8 = [];
 for (let i = 0; i < 100; i++) {
     data8.push({
@@ -430,6 +430,12 @@ class TableDemo extends React.Component {
                 <Card bordered={false} title='仓库目录' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
                     <p>
                         <Button onClick={this.handleAdd}>添加行</Button>
+
+                        <Search
+                            placeholder="input search text"
+                            onSearch={value => console.log(value)}
+                            style={{ width: 200 ,margin: 5}}
+                        />
                     </p>
                     <Table bordered dataSource={this.state.data7} columns={this.columns7} style={styles.tableStyle}/>
                 </Card>

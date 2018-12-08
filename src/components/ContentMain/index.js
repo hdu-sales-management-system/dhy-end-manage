@@ -52,11 +52,10 @@ class ContentMain extends React.Component {
         <Switch>
           <PrivateRoute exact path='/home' component={Home}/>
           <PrivateRoute exact path='/home/shop' component={Shop}/>
-          <PrivateRoute exact path='home/storehouse' component={Storehouse}/>
+          <PrivateRoute exact path='/home/storehouse' component={Storehouse}/>
 
           <PrivateRoute exact path='/home/general/button' component={ButtonDemo}/>
           <PrivateRoute exact path='/home/general/icon' component={IconDemo}/>
-          <PrivateRoute exact path='/home/shop' component={ButtonDemo}/>
 
           <PrivateRoute exact path='/home/navigation/dropdown' component={DropdownDemo}/>
           <PrivateRoute exact path='/home/navigation/menu' component={MenuDemo}/>

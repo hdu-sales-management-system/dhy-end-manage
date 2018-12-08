@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Popconfirm, Button, Icon, Table, Divider, BackTop, Affix, Anchor, Form, InputNumber, Input} from 'antd'
+import {Card, Popconfirm, Button, Icon, Table, Divider, BackTop, Affix,Modal, Form, InputNumber, Input} from 'antd'
 import axios from 'axios'
 import CustomBreadcrumb from '../../components/CustomBreadcrumb/index'
 import TypingCard from '../../components/TypingCard'
@@ -125,104 +125,53 @@ class TableDemo extends React.Component {
         {
             title: '礼品名',
             dataIndex: 'name',
-            width: '10%',
+            width: '15%',
             editable: true,
         },
         {
             title: '分类',
-            dataIndex: 'age',
+            dataIndex: 'category',
             filters: [
                 {text: '类别1', value: '类别1'},
                 {text: '类别2', value: '类别2'},
             ],
             editable: true,
-            width:'10%'
+            width:'15%'
         },
         {
-            title: '礼品介绍',
-            dataIndex: 'address',
+            title: '库存',
+            dataIndex: 'store_num',
             editable: true,
             width:'10%'
         },
         {
-            title: '上架时间',
-            dataIndex: 'on_date',
+            title: '进货时间',
+            dataIndex: 'purchase_date',
+            editable: true,
+            width:'15%'
+        },
+        {
+            title: '进货价格',
+            dataIndex: 'purchase_price',
             editable: true,
             width:'10%'
         },
         {
-            title: '售卖价格',
-            dataIndex: 'cost',
+            title: '状态',
+            dataIndex: 'status',
             editable: true,
             width:'10%'
         },
-        {
-            title: '热度',
-            dataIndex: 'hot',
-            editable: true,
-            width:'8%'
-        },
-        {
-            title: '打折状态',
-            dataIndex: 'off',
-            editable: true,
-            width:'10%'
-        },
-        {
-            title: '折扣',
-            dataIndex: 'off_cost',
-            editable: true,
-            width:'8%'
-        },
-        {
-            title: '定位',
-            dataIndex: 'location',
-            editable: true,
-            width:'10%'
-        },
-        {
-            title: '编辑',
-            dataIndex: 'operation',
-            render: (text, record) => {
-                const editable = this.isEditing(record);
-                return (
-                    <div>
-                        {editable ? (
-                            <span>
-                  <EditableContext.Consumer>
-                    {form => (
-                        <a
 
-                            onClick={() => this.save(form, record.key)}
-                            style={{marginRight: 8}}
-                        >
-                            Save
-                        </a>
-                    )}
-                  </EditableContext.Consumer>
-                  <Popconfirm
-                      title="取消？"
-                      onConfirm={() => this.cancel(record.key)}
-                  >
-                    <a>取消</a>
-                  </Popconfirm>
-                </span>
-                        ) : (
-                            <a onClick={() => this.edit(record.key)}>Edit</a>
-                        )}
-                    </div>
-                );
-            },
-        },
         {
-            title: '删除',
+            title: '上架',
             dataIndex: 'operation',
-            width:'7%',
+            width:'15%',
             render: (text, record) => {
                 return (
-                    this.state.data7.length > 1 ?
-                        <Popconfirm title="删除?" onConfirm={() => this.onDelete(record.key)}>
-                            <a>删除</a>
+                    this.state.data7.length > 0 ?
+                        <Popconfirm title="上架?" onConfirm={() => this.onDelete(record.key)}>
+                            <a>上架</a>
                         </Popconfirm> : null
                 )
             }
@@ -460,7 +409,7 @@ class TableDemo extends React.Component {
           </ul>`*/
         return (
             <div>
-                <CustomBreadcrumb arr={[ '商城']}/>
+                <CustomBreadcrumb arr={['仓库']}/>
                 {/*<TypingCard id='howUse' source={cardContent} height={178}/>*/}
                 {/*<Card bordered={false} title='商品目录' style={{marginBottom: 10, minHeight: 762}} id='remoteLoading'>
                     <Table rowKey={record => record.login.uuid}
@@ -478,7 +427,7 @@ class TableDemo extends React.Component {
                     <Table dataSource={data6} columns={columns6} style={styles.tableStyle}
                            scroll={{x: 1500, y: 500}}/>
                 </Card>*/}
-                <Card bordered={false} title='商品目录' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
+                <Card bordered={false} title='仓库目录' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
                     <p>
                         <Button onClick={this.handleAdd}>添加行</Button>
                     </p>

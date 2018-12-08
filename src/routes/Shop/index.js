@@ -130,7 +130,7 @@ class TableDemo extends React.Component {
         },
         {
             title: '分类',
-            dataIndex: 'age',
+            dataIndex: 'category',
             filters: [
                 {text: '类别1', value: '类别1'},
                 {text: '类别2', value: '类别2'},
@@ -182,7 +182,7 @@ class TableDemo extends React.Component {
         },
         {
             title: '编辑',
-            dataIndex: 'operation',
+            dataIndex: 'edit',
             render: (text, record) => {
                 const editable = this.isEditing(record);
                 return (
@@ -216,11 +216,11 @@ class TableDemo extends React.Component {
         },
         {
             title: '删除',
-            dataIndex: 'operation',
+            dataIndex: 'on_delete',
             width:'7%',
             render: (text, record) => {
                 return (
-                    this.state.data7.length > 1 ?
+                    this.state.data7.length > 0 ?
                         <Popconfirm title="删除?" onConfirm={() => this.onDelete(record.key)}>
                             <a>删除</a>
                         </Popconfirm> : null
@@ -228,60 +228,6 @@ class TableDemo extends React.Component {
             }
         }
     ]
-    /*columns8 = [
-        {
-            title: 'name',
-            dataIndex: 'name',
-            width: '25%',
-            editable: true,
-        },
-        {
-            title: 'age',
-            dataIndex: 'age',
-            width: '15%',
-            editable: true,
-        },
-        {
-            title: 'address',
-            dataIndex: 'address',
-            width: '40%',
-            editable: true,
-        },
-        {
-            title: 'operation',
-            dataIndex: 'operation',
-            render: (text, record) => {
-                const editable = this.isEditing(record);
-                return (
-                    <div>
-                        {editable ? (
-                            <span>
-                  <EditableContext.Consumer>
-                    {form => (
-                        <a
-
-                            onClick={() => this.save(form, record.key)}
-                            style={{marginRight: 8}}
-                        >
-                            Save
-                        </a>
-                    )}
-                  </EditableContext.Consumer>
-                  <Popconfirm
-                      title="Sure to cancel?"
-                      onConfirm={() => this.cancel(record.key)}
-                  >
-                    <a>Cancel</a>
-                  </Popconfirm>
-                </span>
-                        ) : (
-                            <a onClick={() => this.edit(record.key)}>Edit</a>
-                        )}
-                    </div>
-                );
-            },
-        },
-    ]*/
 
     handleChange = (pagination, filters, sorter) => {
         this.setState({
@@ -401,7 +347,7 @@ class TableDemo extends React.Component {
         let {sortedInfo, filteredInfo} = this.state
         sortedInfo = sortedInfo || {}
         filteredInfo = filteredInfo || {}
-        const columns3 = [
+        /*const columns3 = [
             {
                 title: 'Name',
                 dataIndex: 'name',
@@ -432,7 +378,7 @@ class TableDemo extends React.Component {
                 onFilter: (value, record) => record.address.includes(value),
                 sorter: (a, b) => a.address.length - b.address.length,
                 sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-            }]
+            }]*/
         const components = {
             body: {
                 row: EditableFormRow,
@@ -460,7 +406,7 @@ class TableDemo extends React.Component {
           </ul>`*/
         return (
             <div>
-                <CustomBreadcrumb arr={[ '商城']}/>
+                <CustomBreadcrumb arr={['商城']}/>
                 {/*<TypingCard id='howUse' source={cardContent} height={178}/>*/}
                 {/*<Card bordered={false} title='商品目录' style={{marginBottom: 10, minHeight: 762}} id='remoteLoading'>
                     <Table rowKey={record => record.login.uuid}

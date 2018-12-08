@@ -84,19 +84,19 @@ class TableDemo extends React.Component {
         {
             title: '礼品ID',
             dataIndex: 'id',
-            width: '5%',
+            width: '50px',
             editable: false,
         },
         {
             title: '礼品名',
             dataIndex: 'title',
-            width: '10%',
+            width: '150px',
             editable: true,
         },
         {
             title: '封面',
             dataIndex: 'cover',
-            width: '5%',
+            width: '100px',
             editable: false,
             render(src) {
                 return <Avatar shape="square" src={src} size="large" />
@@ -116,7 +116,7 @@ class TableDemo extends React.Component {
             title: '礼品介绍',
             dataIndex: 'description',
             editable: true,
-            width:'15%'
+            width:'300px'
         },
         {
             title: '上架时间',
@@ -128,29 +128,30 @@ class TableDemo extends React.Component {
             title: '售卖价格',
             dataIndex: 'price',
             editable: true,
-            width:'10%'
+            width:'100px'
         },
         {
             title: '热度',
             dataIndex: 'hot',
             editable: false,
-            width:'8%'
+            width:'50px'
         },
         {
             title: '打折状态',
             dataIndex: 'off',
             editable: true,
-            width:'10%'
+            width:'50px'
         },
         {
             title: '折扣',
             dataIndex: 'offcost',
             editable: true,
-            width:'5%'
+            width:'80px'
         },
         {
             title: '编辑',
             dataIndex: 'edit',
+            width: '200px',
             render: (text, record) => {
                 const editable = this.isEditing(record);
                 return (
@@ -164,7 +165,7 @@ class TableDemo extends React.Component {
                                             onClick={() => this.save(form, record.id)}
                                             style={{marginRight: 8}}
                                         >
-                                            Save
+                                            保存
                                         </a>
                                     )}
                                 </EditableContext.Consumer>
@@ -176,7 +177,7 @@ class TableDemo extends React.Component {
                                 </Popconfirm>
                             </span>
                         ) : (
-                            <a onClick={() => this.edit(record.id)}>Edit</a>
+                            <a onClick={() => this.edit(record.id)}>编辑</a>
                         )}
                     </div>
                 );
@@ -185,7 +186,7 @@ class TableDemo extends React.Component {
         {
             title: '删除',
             dataIndex: 'delete',
-            width:'7%',
+            width:'200px',
             render: (text, record) => {
                 return (
                     this.state.data.length > 1 ?

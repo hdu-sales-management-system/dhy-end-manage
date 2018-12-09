@@ -2,7 +2,6 @@ import React from 'react'
 import {Card, Popconfirm, Button, Icon, Table, Divider, BackTop, Affix, Modal, Form, InputNumber, Input} from 'antd'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb/index'
 import {getDepots} from '@/network/depot'
-import ItemUpshelf from './ItemUpshelf'
 
 
 const Search = Input.Search;
@@ -90,7 +89,8 @@ class TableDemo extends React.Component {
         this.setState({
             loading: true
         })
-        const res = await getDepots(params)
+        const res = await getDepots({state: 'onshelf'})
+        console.log(params)
         const pagination = {...this.state.pagination};
         pagination.total = 200
         this.setState({
@@ -141,15 +141,7 @@ class TableDemo extends React.Component {
                     </p>
                     <Table bordered dataSource={this.state.data} columns={this.columns} style={styles.tableStyle}/>
                 </Card>
-                <Modal
-                  title="礼品上架"
-                  width="70%"
-                  centered
-                  footer={null}
-                  visible={this.state.visible}
-                >
-                  <ItemUpshelf onClose={() => this.handelClose()}/>
-                </Modal >
+
                 <BackTop visibilityHeight={200} style={{right: 50}}/>
 
             </div>

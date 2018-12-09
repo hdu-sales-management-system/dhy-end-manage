@@ -1,50 +1,52 @@
 import React from 'react'
 import { withRouter, Switch, Redirect } from 'react-router-dom'
-import LoadableComponent from '../../utils/LoadableComponent'
+import LoadableComponent from '@/utils/LoadableComponent'
 import PrivateRoute from '../PrivateRoute'
 
-const Home = LoadableComponent(()=>import('../../routes/Home/index'))  //参数一定要是函数，否则不会懒加载，只会代码拆分
-const Shop =LoadableComponent(()=>import('../../routes/Shop/index'))
-const Storehouse =LoadableComponent(()=>import('../../routes/Storehouse/index'))
-const Manage=LoadableComponent(()=>import('../../routes/Manage/index'))
+const Home = LoadableComponent(()=>import('@/routes/Home/index'))  //参数一定要是函数，否则不会懒加载，只会代码拆分
+const Shop =LoadableComponent(()=>import('@/routes/Shop/index'))
+const OnShelf = LoadableComponent(() => import('@/routes/Storehouse/onshelf/index'))
+const UnShelf =LoadableComponent(()=>import('@/routes/Storehouse/unshelf/index'))
+const Manage=LoadableComponent(()=>import('@/routes/Manage/index'))
 //基本组件Demo
-const ButtonDemo = LoadableComponent(()=>import('../../routes/General/ButtonDemo/index'))
-const IconDemo = LoadableComponent(()=>import('../../routes/General/IconDemo/index'))
+const ButtonDemo = LoadableComponent(()=>import('@/routes/General/ButtonDemo/index'))
+const IconDemo = LoadableComponent(()=>import('@/routes/General/IconDemo/index'))
 
 //导航组件Demo
-const DropdownDemo = LoadableComponent(()=>import('../../routes/Navigation/DropdownDemo/index'))
-const MenuDemo = LoadableComponent(()=>import('../../routes/Navigation/MenuDemo/index'))
-const StepsDemo = LoadableComponent(()=>import('../../routes/Navigation/StepsDemo/index'))
+const DropdownDemo = LoadableComponent(()=>import('@/routes/Navigation/DropdownDemo/index'))
+const MenuDemo = LoadableComponent(()=>import('@/routes/Navigation/MenuDemo/index'))
+const StepsDemo = LoadableComponent(()=>import('@/routes/Navigation/StepsDemo/index'))
 
 //输入组件Demo
-const FormDemo1 = LoadableComponent(()=>import('../../routes/Entry/FormDemo/FormDemo1'))
-const FormDemo2 = LoadableComponent(()=>import('../../routes/Entry/FormDemo/FormDemo2'))
-const UploadDemo = LoadableComponent(()=>import('../../routes/Entry/UploadDemo/index'))
+const FormDemo1 = LoadableComponent(()=>import('@/routes/Entry/FormDemo/FormDemo1'))
+const FormDemo2 = LoadableComponent(()=>import('@/routes/Entry/FormDemo/FormDemo2'))
+const UploadDemo = LoadableComponent(()=>import('@/routes/Entry/UploadDemo/index'))
 
 //显示组件Demo
-const CarouselDemo = LoadableComponent(()=>import('../../routes/Display/CarouselDemo/index'))
-const CollapseDemo = LoadableComponent(()=>import('../../routes/Display/CollapseDemo/index'))
-const ListDemo = LoadableComponent(()=>import('../../routes/Display/ListDemo/index'))
-const TableDemo = LoadableComponent(()=>import('../../routes/Display/TableDemo/index'))
-const TabsDemo = LoadableComponent(()=>import('../../routes/Display/TabsDemo/index'))
+const CarouselDemo = LoadableComponent(()=>import('@/routes/Display/CarouselDemo/index'))
+const CollapseDemo = LoadableComponent(()=>import('@/routes/Display/CollapseDemo/index'))
+const ListDemo = LoadableComponent(()=>import('@/routes/Display/ListDemo/index'))
+const TableDemo = LoadableComponent(()=>import('@/routes/Display/TableDemo/index'))
+const TabsDemo = LoadableComponent(()=>import('@/routes/Display/TabsDemo/index'))
 
 //反馈组件Demo
-const SpinDemo = LoadableComponent(()=>import('../../routes/Feedback/SpinDemo/index'))
-const ModalDemo = LoadableComponent(()=>import('../../routes/Feedback/ModalDemo/index'))
-const NotificationDemo = LoadableComponent(()=>import('../../routes/Feedback/NotificationDemo/index'))
+const SpinDemo = LoadableComponent(()=>import('@/routes/Feedback/SpinDemo/index'))
+const ModalDemo = LoadableComponent(()=>import('@/routes/Feedback/ModalDemo/index'))
+const NotificationDemo = LoadableComponent(()=>import('@/routes/Feedback/NotificationDemo/index'))
 
 //其它
-const AnimationDemo = LoadableComponent(()=>import('../../routes/Other/AnimationDemo/index'))
-const GalleryDemo = LoadableComponent(()=>import('../../routes/Other/GalleryDemo/index'))
-const DraftDemo = LoadableComponent(()=>import('../../routes/Other/DraftDemo/index'))
-const ChartDemo = LoadableComponent(()=>import('../../routes/Other/ChartDemo/index'))
-const LoadingDemo = LoadableComponent(()=>import('../../routes/Other/LoadingDemo/index'))
-const ErrorPage = LoadableComponent(()=>import('../../routes/Other/ErrorPage/index'))
-const SpringText = LoadableComponent(()=>import('../../routes/Other/SpringText/index'))
+const AnimationDemo = LoadableComponent(()=>import('@/routes/Other/AnimationDemo/index'))
+const GalleryDemo = LoadableComponent(()=>import('@/routes/Other/GalleryDemo/index'))
+const DraftDemo = LoadableComponent(()=>import('@/routes/Other/DraftDemo/index'))
+const ChartDemo = LoadableComponent(()=>import('@/routes/Other/ChartDemo/index'))
+const LoadingDemo = LoadableComponent(()=>import('@/routes/Other/LoadingDemo/index'))
+const ErrorPage = LoadableComponent(()=>import('@/routes/Other/ErrorPage/index'))
+const SpringText = LoadableComponent(()=>import('@/routes/Other/SpringText/index'))
 
 //关于
-const About = LoadableComponent(()=>import('../../routes/About/index'))
+const About = LoadableComponent(()=>import('@/routes/About/index'))
 
+console.log(OnShelf, UnShelf)
 @withRouter
 class ContentMain extends React.Component {
   render () {
@@ -53,10 +55,11 @@ class ContentMain extends React.Component {
         <Switch>
           <PrivateRoute exact path='/home' component={Home}/>
           <PrivateRoute exact path='/home/shop' component={Shop}/>
-          <PrivateRoute exact path='/home/storehouse' component={Storehouse}/>
+          <PrivateRoute exact path='/home/storehouse/onshelf' component={OnShelf}/>
+          <PrivateRoute exact path='/home/storehouse/unshelf' component={UnShelf}/>
           <PrivateRoute exact path='/home/manage' component={Manage}/>
 
-          <PrivateRoute exact path='/home/general/button' component={ButtonDemo}/>
+          {/* <PrivateRoute exact path='/home/general/button' component={ButtonDemo}/>
           <PrivateRoute exact path='/home/general/icon' component={IconDemo}/>
 
           <PrivateRoute exact path='/home/navigation/dropdown' component={DropdownDemo}/>
@@ -83,7 +86,7 @@ class ContentMain extends React.Component {
           <PrivateRoute exact path='/home/other/chart' component={ChartDemo}/>
           <PrivateRoute exact path='/home/other/loading' component={LoadingDemo}/>
           <PrivateRoute exact path='/home/other/404' component={ErrorPage}/>
-          <PrivateRoute exact path='/home/other/springText' component={SpringText}/>
+          <PrivateRoute exact path='/home/other/springText' component={SpringText}/> */}
 
           <PrivateRoute exact path='/home/about' component={About}/>
 

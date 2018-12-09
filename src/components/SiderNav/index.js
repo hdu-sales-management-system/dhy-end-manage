@@ -14,9 +14,21 @@ const menus = [
      key:'/home/shop',
   },
   {
-     title:'商城仓库',
-     icon:'laptop',
-     key:'/home/storehouse',
+    title:'商城仓库',
+    icon:'laptop',
+    key:'/home/storehouse',
+    subs: [
+      {
+        icon: '',
+        key: '/home/storehouse/onshelf',
+        title: '已上架', 
+      },
+      {
+        icon: '',
+        key: '/home/storehouse/unshelf',
+        title: '未上架',
+      }
+    ]
   },
   {
       title:'仓库管理',

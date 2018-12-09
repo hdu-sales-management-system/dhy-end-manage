@@ -23,8 +23,11 @@ class ItemUpshelf extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
-      const resp = await itemUpshelf(values)
-      this.props.onClose()
+      const resp = await itemUpshelf({
+        ...values,
+        depot_item_id: this.props.item.id
+      })
+      this.props.onClose(this.props.item.id)
     });
   }
 
@@ -54,15 +57,6 @@ class ItemUpshelf extends Component {
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));

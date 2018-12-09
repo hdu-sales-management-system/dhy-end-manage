@@ -1,9 +1,8 @@
 import React from 'react'
-import {Card, Popconfirm, Button, Icon, Table, Divider, BackTop, Affix,Modal, Form, InputNumber, Input} from 'antd'
-import axios from 'axios'
-import CustomBreadcrumb from '../../components/CustomBreadcrumb/index'
-import TypingCard from '../../components/TypingCard'
+import {Card, Popconfirm, Button, Icon, Table, Divider, BackTop, Affix, Modal, Form, InputNumber, Input} from 'antd'
+import CustomBreadcrumb from '@/components/CustomBreadcrumb/index'
 import {getDepots} from '@/network/depot'
+import ItemUpshelf from './ItemUpshelf'
 
 
 const Search = Input.Search;
@@ -16,9 +15,11 @@ class TableDemo extends React.Component {
         pagination: {
             pageSize: 8
         },
+        visible: false,
         data: [],
         count: 2,
         editingKey: '',
+        itemUpshelf: {},
     }
 
     componentDidMount() {
@@ -30,36 +31,30 @@ class TableDemo extends React.Component {
             title: '礼品名',
             dataIndex: 'name',
             width: '15%',
-            editable: true,
         },
         {
             title: '库存',
             dataIndex: 'count',
-            editable: true,
             width:'10%'
         },
         {
             title: '进货时间',
             dataIndex: 'updated_at',
-            editable: false,
             width:'15%'
         },
         {
             title: '进货价格',
             dataIndex: 'purchase_price',
-            editable: true,
             width:'10%'
         },
         {
             title: '供货商',
             dataIndex: 'supplier',
-            editable: true,
             width:'10%'
         },
         {
           title: '商标码',
           dataIndex: 'bar_code',
-          editable: true,
           width: '10%'
         },
         {
@@ -69,7 +64,10 @@ class TableDemo extends React.Component {
             render: (text, record) => {
                 return (
                     this.state.data.length > 0 ?
-                        <Popconfirm title="上架?" onConfirm={() => this.handelUpToShelf(record.key)}>
+                        < Popconfirm title = "上架?"
+                        onConfirm = {
+                          () => this.handelItemUpshelf(record)
+                        } >
                             <a>上架</a>
                         </Popconfirm> : null
                 )
@@ -83,9 +81,11 @@ class TableDemo extends React.Component {
             sortedInfo: sorter,
         })
     }
-    handelUpToShelf(key) {
-      console.log(key)
+
+    handelItemUpshelf(record) {
+      this.setState({visible: true, itemUpshelf: record})
     }
+    
     async getRemoteData(params) {
         this.setState({
             loading: true
@@ -114,7 +114,14 @@ class TableDemo extends React.Component {
             ...filters,
         })
     }
+    handleOk() {
 
+    }
+    handelClose() {
+      this.setState({
+        visible: false,
+      })
+    }
     render() {
         let {sortedInfo, filteredInfo} = this.state
         sortedInfo = sortedInfo || {}
@@ -122,6 +129,7 @@ class TableDemo extends React.Component {
         return (
             <div>
            
+                <CustomBreadcrumb arr={[ '仓库']}/>
                 <Card bordered={false} title='仓库目录' style={{marginBottom: 10, minHeight: 440}} id='editTable'>
                     <p>
 
@@ -133,7 +141,15 @@ class TableDemo extends React.Component {
                     </p>
                     <Table bordered dataSource={this.state.data} columns={this.columns} style={styles.tableStyle}/>
                 </Card>
-
+                <Modal
+                  title="礼品上架"
+                  width="70%"
+                  centered
+                  footer={null}
+                  visible={this.state.visible}
+                >
+                  <ItemUpshelf onClose={() => this.handelClose()}/>
+                </Modal >
                 <BackTop visibilityHeight={200} style={{right: 50}}/>
 
             </div>

@@ -90,7 +90,7 @@ class TableDemo extends React.Component {
         this.setState({
             loading: true
         })
-        const res = await getDepots({state: 'unshelf'})
+        const res = await getDepots({state: 'unshelf', ...params})
         const pagination = {...this.state.pagination};
         pagination.total = 200
         this.setState({
@@ -129,6 +129,13 @@ class TableDemo extends React.Component {
         visible: false,
       })
     }
+
+    handleSearch(value) {
+      this.getRemoteData({
+        q: value
+      })
+    }
+    
     render() {
         let {sortedInfo, filteredInfo} = this.state
         sortedInfo = sortedInfo || {}
@@ -142,7 +149,7 @@ class TableDemo extends React.Component {
 
                         <Search
                             placeholder="input search text"
-                            onSearch={value => console.log(value)}
+                            onSearch={value => this.handleSearch(value)}
                             style={{ width: 200 ,margin: 5}}
                         />
                     </p>

@@ -71,20 +71,26 @@ class ItemUpshelf extends Component {
 // 折扣
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label = "礼品名"
-        >
-          {getFieldDecorator('title', {
-            rules: [{
-              type: 'string', message: '请输入正确的礼品名',
-            }, {
-              required: true, message: '请输入礼品名',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
+      <Row>
+        <Col span={18}>
+          <FormItem
+            {...formItemLayout}
+            label = "礼品名"
+          >
+            {getFieldDecorator('title', {
+              rules: [{
+                type: 'string', message: '请输入正确的礼品名',
+              }, {
+                required: true, message: '请输入礼品名',
+              }],
+            })(
+              <Input />
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={18}>
         <FormItem
           {...formItemLayout}
           label="封面"
@@ -99,6 +105,10 @@ class ItemUpshelf extends Component {
             <Input />
           )}
         </FormItem>
+        </Col>
+        </Row>
+        <Row>
+          <Col span={18}>
         <FormItem
           {...formItemLayout}
           label="分类"
@@ -120,6 +130,10 @@ class ItemUpshelf extends Component {
             </Select>
           )}
         </FormItem>
+        </Col>
+          </Row>
+        <Row>
+          <Col span={18}>
         <FormItem
           {...formItemLayout}
           label='礼品描述'
@@ -131,6 +145,10 @@ class ItemUpshelf extends Component {
             <TextArea />
           )}
         </FormItem>
+        </Col>
+          </Row>
+        <Row>
+          <Col span={18}>
         <FormItem
           {...formItemLayout}
           label="售卖价格"
@@ -141,30 +159,44 @@ class ItemUpshelf extends Component {
             <InputNumber />
           )}
         </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="打折状态"
-        >
-          {getFieldDecorator('off', {
-            rules: [{ required: true, message: '请选择是否打折！' }],
-          })(
-            <Switch />
-          )}
-        </FormItem>
+        </Col>
+          </Row>
+        <Row>
+          <Col span={18}>
+          <FormItem
+            {...formItemLayout}
+            label="打折状态"
+          >
+            {getFieldDecorator('off', {
+              rules: [{ required: true, message: '请选择是否打折！' }],
+            })(
+              <Switch />
+            )}
+          </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={18}>
         <FormItem
           {...formItemLayout}
           label="折扣"
         >
           {getFieldDecorator('offcost', {
-            rules: [{ required: true, message: '请输入折扣' }],
+            rules: [{ required: false, message: '请输入折扣' }],
           })(
             <InputNumber />
           )}
         </FormItem>
+        </Col>
+        </Row>
+        <Row>
+          <Col span={18}>
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">提交</Button>
           <Button type="danger" htmlType="reset">取消</Button>
         </FormItem>
+        </Col>
+      </Row>
       </Form>
     );
   }

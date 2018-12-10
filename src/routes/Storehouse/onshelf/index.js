@@ -56,22 +56,6 @@ class TableDemo extends React.Component {
           dataIndex: 'bar_code',
           width: '10%'
         },
-        {
-            title: '上架',
-            dataIndex: 'operation',
-            width:'15%',
-            render: (text, record) => {
-                return (
-                    this.state.data.length > 0 ?
-                        < Popconfirm title = "上架?"
-                        onConfirm = {
-                          () => this.handelItemUpshelf(record)
-                        } >
-                            <a>上架</a>
-                        </Popconfirm> : null
-                )
-            }
-        }
     ]
     
     handleChange = (pagination, filters, sorter) => {
@@ -89,7 +73,7 @@ class TableDemo extends React.Component {
         this.setState({
             loading: true
         })
-        const res = await getDepots({state: 'onshelf'})
+        const res = await getDepots({state: 'onshelf', ...params})
         console.log(params)
         const pagination = {...this.state.pagination};
         pagination.total = 200
@@ -122,6 +106,13 @@ class TableDemo extends React.Component {
         visible: false,
       })
     }
+    
+    handleSearch(value) {
+      this.getRemoteData({
+        q: value
+      })
+    }
+
     render() {
         let {sortedInfo, filteredInfo} = this.state
         sortedInfo = sortedInfo || {}
@@ -135,7 +126,7 @@ class TableDemo extends React.Component {
 
                         <Search
                             placeholder="input search text"
-                            onSearch={value => console.log(value)}
+                            onSearch={value => this.handleSearch(value)}
                             style={{ width: 200 ,margin: 5}}
                         />
                     </p>

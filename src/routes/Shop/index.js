@@ -90,7 +90,7 @@ class TableDemo extends React.Component {
         {
             title: '礼品名',
             dataIndex: 'title',
-            width: '150px',
+            width: '170px',
             editable: true,
         },
         {
@@ -110,7 +110,7 @@ class TableDemo extends React.Component {
                 {text: '类别2', value: '类别2'},
             ],
             editable: false,
-            width:'8%'
+            width:'80px'
         },
         {
             title: '礼品介绍',
@@ -122,7 +122,7 @@ class TableDemo extends React.Component {
             title: '上架时间',
             dataIndex: 'created_at',
             editable: false,
-            width:'10%'
+            width:'100px'
         },
         {
             title: '售卖价格',
@@ -134,13 +134,14 @@ class TableDemo extends React.Component {
             title: '热度',
             dataIndex: 'hot',
             editable: false,
-            width:'50px'
+            width:'80px'
         },
         {
             title: '打折状态',
             dataIndex: 'off',
             editable: true,
-            width:'50px'
+            width:'50px',
+            render: (text, record) => (<Switch checked={text}/>)
         },
         {
             title: '折扣',
@@ -226,7 +227,7 @@ class TableDemo extends React.Component {
         this.setState({
             loading: true
         })
-        const resp = await getPresents()
+        const resp = await getPresents(params)
         const pagination = {...this.state.pagination};
         pagination.total = 200
         // debugger
@@ -306,6 +307,25 @@ class TableDemo extends React.Component {
         });
     }
 
+    orderState = {
+      hot: 'desc',
+      price: 'desc',
+    }
+    sortOrder(field) {
+      const order = {
+        type: field,
+        order: this.orderState[field],
+      }
+      if (this.orderState[field] == 'desc') {
+        this.orderState[field] = 'asc'
+      }else {
+        this.orderState[field] = 'desc'
+      }
+      this.getRemoteData(order)
+    }
+    handleSearch(value) {
+      this.getRemoteData({q: value})
+    }
     cancel = () => {
         this.setState({editingKey: ''});
     };
@@ -343,9 +363,11 @@ class TableDemo extends React.Component {
                     <p>
                         <Search
                             placeholder="input search text"
-                            onSearch={value => console.log(value)}
+                            onSearch={value => this.handleSearch(value)}
                             style={{ width: 200 ,margin: 5}}
                         />
+                        <Button onClick={() => this.sortOrder('price')} style={{margin:'0 15px'}}>价格排序</Button>
+                        <Button onClick={() => this.sortOrder('hot')} >热度排序</Button>
                     </p>
                     <Table scroll={{x: 1500, y: 800}} bordered components={components} dataSource={this.state.data} columns={columns} style={styles.tableStyle}/>
                 </Card>

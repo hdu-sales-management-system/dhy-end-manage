@@ -46,7 +46,6 @@ const SpringText = LoadableComponent(()=>import('@/routes/Other/SpringText/index
 //关于
 const About = LoadableComponent(()=>import('@/routes/About/index'))
 
-console.log(OnShelf, UnShelf)
 @withRouter
 class ContentMain extends React.Component {
   render () {

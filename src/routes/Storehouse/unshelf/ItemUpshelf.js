@@ -16,7 +16,11 @@ class ItemUpshelf extends Component {
     confirmDirty: false,
     autoCompleteResult: [],
   };
-
+  componentDidMount() {
+    this.props.form.setFieldsValue({
+      title: this.props.item.name
+    })
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(async (err, values) => {
@@ -32,28 +36,35 @@ class ItemUpshelf extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator,setFieldsValue } = this.props.form;
+    const { item } = this.props
+    console.log(item)
     const { autoCompleteResult } = this.state;
-
     const formItemLayout = {
       labelCol: {
+        md: { span: 6 },
         xs: { span: 24 },
         sm: { span: 8 },
       },
       wrapperCol: {
+        md: { span: 12 },
         xs: { span: 24 },
         sm: { span: 16 },
       },
     };
     const tailFormItemLayout = {
       wrapperCol: {
+        md: {
+          span: 8,
+          offset: 8,
+        },
         xs: {
-          span: 24,
-          offset: 0,
+          span: 16,
+          offset: 4,
         },
         sm: {
           span: 16,
-          offset: 8,
+          offset: 4,
         },
       },
     };
@@ -71,8 +82,7 @@ class ItemUpshelf extends Component {
 // 折扣
     return (
       <Form onSubmit={this.handleSubmit}>
-      <Row>
-        <Col span={18}>
+      
           <FormItem
             {...formItemLayout}
             label = "礼品名"
@@ -87,10 +97,7 @@ class ItemUpshelf extends Component {
               <Input />
             )}
           </FormItem>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={18}>
+      
         <FormItem
           {...formItemLayout}
           label="封面"
@@ -105,10 +112,6 @@ class ItemUpshelf extends Component {
             <Input />
           )}
         </FormItem>
-        </Col>
-        </Row>
-        <Row>
-          <Col span={18}>
         <FormItem
           {...formItemLayout}
           label="分类"
@@ -130,10 +133,7 @@ class ItemUpshelf extends Component {
             </Select>
           )}
         </FormItem>
-        </Col>
-          </Row>
-        <Row>
-          <Col span={18}>
+
         <FormItem
           {...formItemLayout}
           label='礼品描述'
@@ -145,24 +145,30 @@ class ItemUpshelf extends Component {
             <TextArea />
           )}
         </FormItem>
-        </Col>
-          </Row>
-        <Row>
-          <Col span={18}>
+
         <FormItem
           {...formItemLayout}
           label="售卖价格"
         >
           {getFieldDecorator('price', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入礼品售卖价格!' }],
           })(
             <InputNumber />
           )}
         </FormItem>
-        </Col>
-          </Row>
-        <Row>
-          <Col span={18}>
+        {console.log(item.stockCount)}
+        <FormItem
+          {...formItemLayout}
+          label="上架数量"
+        >
+          {getFieldDecorator('saleCount', {
+            rules: [
+            { required: true, message: '请输入上架数量!' },
+          ],
+          })(
+            <InputNumber max={item.stockCount} />
+          )}
+        </FormItem>
           <FormItem
             {...formItemLayout}
             label="打折状态"
@@ -173,10 +179,6 @@ class ItemUpshelf extends Component {
               <Switch />
             )}
           </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={18}>
         <FormItem
           {...formItemLayout}
           label="折扣"
@@ -187,16 +189,10 @@ class ItemUpshelf extends Component {
             <InputNumber />
           )}
         </FormItem>
-        </Col>
-        </Row>
-        <Row>
-          <Col span={18}>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">提交</Button>
+          <Button style={{marginRight: 40 }} type="primary" htmlType="submit">提交</Button>
           <Button type="danger" htmlType="reset">取消</Button>
         </FormItem>
-        </Col>
-      </Row>
       </Form>
     );
   }

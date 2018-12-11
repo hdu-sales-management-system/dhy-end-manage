@@ -31,22 +31,27 @@ class TableDemo extends React.Component {
             title: '礼品名',
             dataIndex: 'name',
             width: '15%',
+        }, 
+        {
+          title: '进货时间',
+          dataIndex: 'updated_at',
+          width:'15%'
         },
         {
-            title: '库存',
-            dataIndex: 'count',
+          title: '进货价格',
+          dataIndex: 'purchase_price',
+          width:'10%'
+        },
+        {
+          title: '上架库存',
+          dataIndex: 'saleCount',
+          width: '10%'
+        },
+        {
+            title: '未上架库存',
+            dataIndex: 'stockCount',
             width:'10%'
-        },
-        {
-            title: '进货时间',
-            dataIndex: 'updated_at',
-            width:'15%'
-        },
-        {
-            title: '进货价格',
-            dataIndex: 'purchase_price',
-            width:'10%'
-        },
+        }, 
         {
             title: '供货商',
             dataIndex: 'supplier',

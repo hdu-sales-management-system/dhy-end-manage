@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
-  Form, Input, Tooltip, Icon, InputNumber, Switch, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
+  Form, 
+  Input, 
+  Icon, 
+  InputNumber, 
+  Switch, 
+  Select, 
+  Button, 
+  AutoComplete, 
+  Upload
 } from 'antd';
 import { itemUpshelf } from '@/network/depot'
 
@@ -12,6 +20,8 @@ const AutoCompleteOption = AutoComplete.Option;
 const { TextArea } = Input
 
 class ItemUpshelf extends Component {
+
+  coverUrl = ''
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
@@ -27,18 +37,31 @@ class ItemUpshelf extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
+      values.cover = this.coverUrl
+      delete values.upload
       const resp = await itemUpshelf({
-        ...values,
-        depot_item_id: this.props.item.id
+        id: this.props.item.id,
+        present: values,
       })
       this.props.onClose(this.props.item.id)
     });
   }
 
+  normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  }
+
+  handleSuccess = (resp) => {
+    // console.log(resp)
+    this.coverUrl = resp.url
+  }
+
   render() {
     const { getFieldDecorator,setFieldsValue } = this.props.form;
     const { item } = this.props
-    console.log(item)
     const { autoCompleteResult } = this.state;
     const formItemLayout = {
       labelCol: {
@@ -68,18 +91,7 @@ class ItemUpshelf extends Component {
         },
       },
     };
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
-// 礼品名
-// 封面
-// 分类
-// 礼品介绍
-// 上架时间
-// 售卖价格
-// 热度
-// 打折状态
-// 折扣
+
     return (
       <Form onSubmit={this.handleSubmit}>
       
@@ -102,14 +114,21 @@ class ItemUpshelf extends Component {
           {...formItemLayout}
           label="封面"
         >
-          {getFieldDecorator('cover', {
-            rules: [{
-              required: true, message: '请输入封面地址！',
-            }, {
-              type: 'url', message: '请输入正确的封面地址！',
-            }]
+           {getFieldDecorator('upload', {
+            valuePropName: 'fileList',
+            getValueFromEvent: this.normFile,
           })(
-            <Input />
+            <Upload name="cover"
+              listType="picture-card"
+              // className="avatar-uploader"
+              // showUploadList={false}
+              onSuccess={this.handleSuccess}
+              action="http://localhost:7001/upload/cover"
+              // beforeUpload={beforeUpload}
+              // onChange={this.handleChange}
+            >
+              上传图片
+            </Upload>
           )}
         </FormItem>
         <FormItem
@@ -156,7 +175,6 @@ class ItemUpshelf extends Component {
             <InputNumber />
           )}
         </FormItem>
-        {console.log(item.stockCount)}
         <FormItem
           {...formItemLayout}
           label="上架数量"

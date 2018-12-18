@@ -44,11 +44,13 @@ class TableDemo extends React.Component {
         {
           title: '上架库存',
           dataIndex: 'saleCount',
-          width: '10%'
+          width: '10%',
+          render: (value, record) => (value + '/' + record.totalCount)
         }, {
           title: '未上架库存',
           dataIndex: 'stockCount',
-          width: '10%'
+          width: '10%',
+          render: (value, record) => (value + '/' + record.totalCount)
         },
         {
             title: '供货商',

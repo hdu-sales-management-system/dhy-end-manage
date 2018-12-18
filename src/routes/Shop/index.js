@@ -84,19 +84,19 @@ class TableDemo extends React.Component {
         {
             title: '礼品ID',
             dataIndex: 'id',
-            width: '50px',
+            width: '5%',
             editable: false,
         },
         {
             title: '礼品名',
             dataIndex: 'title',
-            width: '170px',
+            width: '8%',
             editable: true,
         },
         {
             title: '封面',
             dataIndex: 'cover',
-            width: '100px',
+            width: '5%',
             editable: false,
             render(src) {
                 return <Avatar shape="square" src={src} size="large" />
@@ -105,54 +105,64 @@ class TableDemo extends React.Component {
         {
             title: '分类',
             dataIndex: 'categorystr',
-            filters: [
-                {text: '类别1', value: '类别1'},
-                {text: '类别2', value: '类别2'},
-            ],
             editable: false,
-            width:'80px'
+            width:'4%'
         },
         {
             title: '礼品介绍',
             dataIndex: 'description',
             editable: true,
-            width:'300px'
+            width:'15%'
         },
         {
             title: '上架时间',
             dataIndex: 'created_at',
             editable: false,
-            width:'100px'
+            width:'5%'
         },
         {
             title: '售卖价格',
             dataIndex: 'price',
             editable: true,
-            width:'100px'
+            width:'5%'
+        },
+        {
+            title: '销售数量',
+            dataIndex: 'count',
+            editable: true,
+            width:'5%'
+        },
+        {
+            title: '上架库存',
+            dataIndex: 'count',
+            editable: true,
+            width:'5%'
         },
         {
             title: '热度',
             dataIndex: 'hot',
             editable: false,
-            width:'80px'
+            width:'5%'
         },
         {
             title: '打折状态',
             dataIndex: 'off',
             editable: true,
-            width:'50px',
-            render: (text, record) => (<Switch checked={text}/>)
+            width:'5%',
+            render(text, record) {
+              return <Switch checked={text}/>
+            }
         },
         {
             title: '折扣',
             dataIndex: 'offcost',
             editable: true,
-            width:'80px'
+            width:'5%'
         },
         {
             title: '编辑',
             dataIndex: 'edit',
-            width: '200px',
+            width: '5%',
             render: (text, record) => {
                 const editable = this.isEditing(record);
                 return (
@@ -187,7 +197,7 @@ class TableDemo extends React.Component {
         {
             title: '删除',
             dataIndex: 'delete',
-            width:'200px',
+            width:'5%',
             render: (text, record) => {
                 return (
                     this.state.data.length > 1 ?

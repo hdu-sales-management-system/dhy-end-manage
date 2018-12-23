@@ -22,6 +22,7 @@ const { TextArea } = Input
 class ItemUpshelf extends Component {
 
   coverUrl = ''
+  imgIds = []
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
@@ -37,11 +38,14 @@ class ItemUpshelf extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
+      delete values.cover
+      delete values.detail
+      delete values.carouse
       values.cover = this.coverUrl
-      delete values.upload
       const resp = await itemUpshelf({
         id: this.props.item.id,
         present: values,
+        images: this.imgIds,
       })
       this.props.onClose(this.props.item.id)
     });
@@ -54,9 +58,13 @@ class ItemUpshelf extends Component {
     return e && e.fileList;
   }
 
-  handleSuccess = (resp) => {
-    // console.log(resp)
+  handleCoverSucc = (resp) => {
+    console.log(resp)
     this.coverUrl = resp.url
+  }
+
+  handleImgSucc = (data) => {
+    this.imgIds.push(data.id)
   }
 
   render() {
@@ -114,18 +122,52 @@ class ItemUpshelf extends Component {
           {...formItemLayout}
           label="封面"
         >
-           {getFieldDecorator('upload', {
+           {getFieldDecorator('cover', {
             valuePropName: 'fileList',
             getValueFromEvent: this.normFile,
           })(
             <Upload name="cover"
               listType="picture-card"
-              // className="avatar-uploader"
-              // showUploadList={false}
-              onSuccess={this.handleSuccess}
+              onSuccess={this.handleCoverSucc}
               action="http://localhost:7001/upload/cover"
-              // beforeUpload={beforeUpload}
-              // onChange={this.handleChange}
+            >
+              上传图片
+            </Upload>
+          )}
+        </FormItem>
+                <FormItem
+          {...formItemLayout}
+          label="轮播图"
+        >
+           {getFieldDecorator('carouse', {
+            valuePropName: 'fileList',
+            getValueFromEvent: this.normFile,
+          })(
+            <Upload 
+              multiple
+              name="cover"
+              listType="picture-card"
+              onSuccess={this.handleImgSucc}
+              action="http://localhost:7001/upload/carouse"
+            >
+              上传图片
+            </Upload>
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="详情"
+        >
+           {getFieldDecorator('detail', {
+            valuePropName: 'fileList',
+            getValueFromEvent: this.normFile,
+          })(
+            <Upload 
+              multiple
+              name="cover"
+              listType="picture-card"
+              onSuccess={this.handleImgSucc}
+              action="http://localhost:7001/upload/detail"
             >
               上传图片
             </Upload>
